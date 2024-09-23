@@ -9,7 +9,7 @@ import ru.netology.bdd.page.LoginPage;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MoneyTrasnferTest {
+public class MoneyTransferTest {
     @BeforeEach
     void setUpEach() {
         open("http://localhost:9999");
