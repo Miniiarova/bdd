@@ -92,4 +92,28 @@ public class MoneyTrasnferTest {
         assertEquals(initialBalance1, cardsPage.getCardBalance(card1.getId()));
         assertEquals(initialBalance2, cardsPage.getCardBalance(card2.getId()));
     }
+
+    @Test
+    public void shouldFailForInsufficientFunds()
+    {
+        var authInfo = DataHelper.getAuthInfo();
+        var loginPage = new LoginPage();
+        var verificationPage = loginPage.validLogin(authInfo);
+        var verificationCode = DataHelper.getVerificationCode();
+        var cardsPage = verificationPage.verify(verificationCode);
+
+        var card1 = DataHelper.getFirstCard();
+        var card2 = DataHelper.getSecondCard();
+
+        var initialBalance1 = cardsPage.getCardBalance(card1.getId());
+        var initialBalance2 = cardsPage.getCardBalance(card2.getId());
+        var transferAmount = initialBalance2 + 100;
+
+        var transferToCard1 = cardsPage.goToTransferPage(card1.getId());
+
+        cardsPage = transferToCard1.failTransfer(transferAmount, card2.getNumber());
+
+        assertEquals(initialBalance1, cardsPage.getCardBalance(card1.getId()));
+        assertEquals(initialBalance2, cardsPage.getCardBalance(card2.getId()));
+    }
 }
